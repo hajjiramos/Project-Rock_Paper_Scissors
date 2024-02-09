@@ -1,149 +1,109 @@
-//let computerSelection = ('rock', 'paper', 'scissors');
-let getPlayerChoice = ('rock', 'paper', 'scissors');
+
+const choices = ["rock", "paper", "scissors"];
+const player = document.getElementById("player");
+const computer = document.getElementById("computer");
+const winner = document.getElementById("winner");
+const displayPlayerScore = document.getElementById("displayPlayerScore");
+const displayComputerScore = document.getElementById("displayComputerScore");
 let playerScore = 0;
 let computerScore = 0;
-let finalPlayerScore = 0;
-let finalComputerScore = 0;
 
-
-
-function getComputerChoice() {
-    computerSelection=Math.floor(Math.random() * 3);
-    switch (computerSelection){
-        case 0:
-            return "rock";
-            break;
-        case 1:
-            return "paper";
-            break;
-        case 2:
-            return "scissors";
-            break;
-    }
-}
 
 const btnR = document.querySelector('#btnR');
 btnR.addEventListener('click', () => {
-    getPlayerChoice = 'rock';
-    game();
-    
+    playerSelection = "rock";
+    playRound();
+    gameWinner();
 });
 
 const btnP = document.querySelector('#btnP');
 btnP.addEventListener('click', () => {
-    getPlayerChoice = 'paper';
-    game();
-    
+    playerSelection = "paper";
+    playRound();
+    gameWinner();
 });
     
 const btnS = document.querySelector('#btnS');
 btnS.addEventListener('click', () => {
-    getPlayerChoice = 'scissors';
-    game();
-    
+    playerSelection  = "scissors";
+    playRound();
+    gameWinner();
 });
 
 
 
-function playRound(playerSelection,computerSelection) {
-     
+function playRound(){
+
+    const computerSelection = choices[Math.floor(Math.random() * 3)];
+    let result = " ";
+
     if (playerSelection === computerSelection) {
-        return "It's a tie! Play again!"; 
-    }
-    else if (playerSelection==="rock" && computerSelection==="scissors") {
-        playerScore++;
-        return "You win! Rock beats Scissors";
-    }
-    else if (playerSelection==="rock" && computerSelection==="paper") {
-        computerScore++;
+            result = "It's a tie! Play again!"; 
+        }
+        else if (playerSelection==="rock" && computerSelection==="scissors") {
+            playerScore++;
+            result = "You win! Rock beats Scissors";
+            displayPlayerScore.textContent = playerScore;
+        }
+        else if (playerSelection==="rock" && computerSelection==="paper") {
+            computerScore++;
+            result =  "You lose! Paper beats Rock";
+            displayComputerScore.textContent = computerScore;
+        }
+        else if (playerSelection==="paper" && computerSelection==="scissors") {
+            computerScore++;
+            result =  "You lose! Scissors beats Paper";
+            displayComputerScore.textContent = computerScore;
+        }
+        else if (playerSelection==="paper" && computerSelection==="rock") {
+            playerScore++;
+            result =  "You win! Paper beats Rock";
+            displayPlayerScore.textContent = playerScore;
+        }
+        else if (playerSelection==="scissors" && computerSelection==="rock") {
+            computerScore++;
+            result =  "You lose! Rock beats Scissors";
+            displayPlayerScore.textContent = playerScore;
+        }
+        else if (playerSelection==="scissors" && computerSelection==="paper") {
+            playerScore++;
+            result = "You win! Scissors beats Paper";
+            displayPlayerScore.textContent = playerScore;
+        }
         
-        return "You lose! Paper beats Rock";
-    }
-    else if (playerSelection==="paper" && computerSelection==="scissors") {
-        computerScore++;
-       
-        return "You lose! Scissors beats Paper";
-    }
-    else if (playerSelection==="paper" && computerSelection==="rock") {
-        playerScore++;
-        
-        return "You win! Paper beats Rock";
-    }
-    else if (playerSelection==="scissors" && computerSelection==="rock") {
-        computerScore++;
-        
-        return "You lose! Rock beats Scissors";
-    }
-    else if (playerSelection==="scissors" && computerSelection==="paper") {
-        playerScore++;
-        return "You win! Scissors beats Paper";
-    }
-    else {
-        return "Try Again!";
-        
-                
-    }  
+        player.textContent = `${playerSelection}`;
+        computer.textContent = `${computerSelection}`;
+        winner.textContent = result;
 }
 
+function gameWinner(){
+                    
+        if (playerScore === 5 ) {
+            const pText = document.createElement('div');
+            pText.textContent = "Congratulations! You win!";
+            container.appendChild(pText);
 
-function game(){
-    const container = document.querySelector('#container');
-    container.style.color = 'blue';
-    container.style.padding = '20px';
+            const playAgain = document.createElement('button');
+                playAgain.textContent = "Play Again?";
+                playAgain.addEventListener('click', () => {
+                    window.location.reload();
+                });
+            container.appendChild(playAgain);
+           
+           
+        }
+        else if (computerScore === 5 ){
+            const cText = document.createElement('div');
+            cText.textContent ="Sorry, you lose!  Computer wins!";
+            container.appendChild(cText);
 
-
-    playerSelection = getPlayerChoice;
-    const text = document.createElement('div');
-    text.textContent = `Player: ${playerSelection}`;
-    container.appendChild(text);
-
-
-    
-    computerSelection = getComputerChoice();
-    const comp = document.createElement('div');
-    comp.textContent = `Computer: ${computerSelection}`;
-    container.appendChild(comp);
-
-
-    const play = document.createElement('p');
-    play.textContent = playRound(playerSelection,computerSelection);
-    container.appendChild(play);
-
-    const div = document.createElement('p');
-    div.style.color ='black';
-    div.style.backgroundColor = 'pink';
-    div.style.border = '5px solid red';
-    div.style.width = '150px';
-    div.style.marginLeft = '350px';
-    div.style.marginTop = '-80px';
-    div.style.padding = '10px';
-        const pScore = document.createElement('div');
-        const cScore = document.createElement('div');
-        pScore.textContent = `Player Score: ${playerScore}`;
-        cScore.textContent = `Computer Score: ${computerScore}`;
-        div.appendChild(pScore);
-        div.appendChild(cScore);
-    container.appendChild(div); 
-
-
-    const winner = document.createElement('p');
-    winner.style.fontSize = '25px';
-    winner.style.color = 'black';
-
-    if (playerScore === 5 ) {
-        const pText = document.createElement('div');
-        pText.textContent = "Congratulations! You win!";
-        winner.appendChild(pText);
-        //alert(pText);
-    }
-    else if (computerScore === 5 ){
-        const cText = document.createElement('div');
-        cText.textContent ="Sorry, you lose!  Computer wins!";
-        winner.appendChild(cText);
-        //alert(cText);
-       
-    }
-    container.appendChild(winner);
- 
+            const playAgain = document.createElement('button');
+                playAgain.textContent = "Play Again?";
+                playAgain.addEventListener('click', () => {
+                    window.location.reload();
+                });
+            container.appendChild(playAgain);
+                   
+        }
+           
 }
-
