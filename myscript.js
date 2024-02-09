@@ -82,6 +82,9 @@ function gameWinner(){
             const pText = document.createElement('div');
             pText.textContent = "Congratulations! You win!";
             container.appendChild(pText);
+            btnR.disabled = true;
+            btnP.disabled = true;
+            btnS.disabled = true;
 
             const playAgain = document.createElement('button');
                 playAgain.textContent = "Play Again?";
@@ -96,6 +99,9 @@ function gameWinner(){
             const cText = document.createElement('div');
             cText.textContent ="Sorry, you lose!  Computer wins!";
             container.appendChild(cText);
+            btnR.disabled = true;
+            btnP.disabled = true;
+            btnS.disabled = true;
 
             const playAgain = document.createElement('button');
                 playAgain.textContent = "Play Again?";
